@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    td{
+        width: 40px;height: 40px;text-align: center;
+    }
+    input{
+        font-size: 65px;
+        align-items: center;
+        text-align: center;
+        background-color: black;
+        color: aliceblue;
+        
+    }
+    button{
+        font-size: 100px;
+        font-weight: bolder;
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        background-color: rgb(245, 239, 239);
+        color: rgb(1, 1, 8);
+        
+    }
+</style>
+<body style="background-color: black;">
+    <table align="center" valign="bottom" style="height: 800px; width: 100%;">
+        <tr><td valign="bottom"><button id="btnStart">Game Start</button><br></td></tr>
+        <tr><td><input type="text" id="txtname" name="txtname" value="GoGoGo!!!" readonly><br></td></tr>
+    
+</table>
+
+</body>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script>
+snum=1;
+$(document)
+.on('click','#txt',function(){
+    if($(this).text()==''){
+        $(this).text(snum++).css({'background-color':'yellow', 'color':'red'});
+    }
+    snum=parseInt(snum);
+    $('#txtname').val('점수: '+(snum-1)+' !!!');
+})
+.on('click','#btnStart',function(){
+    m=prompt('행 갯수를 입력하시오');
+    m=parseInt(m);
+    n=prompt('열 갯수를 입력하시오');
+    n=parseInt(n);
+    tdstr='';
+    str='';
+        for(j=0; j<m; j++){
+            str+='<tr>'
+                for(i=0; i<n; i++){
+                    str+='<td id="txt"></td>'
+                }
+            str+='</tr>'
+            }
+    $(this).before('<table align="center" id=tblData border="1">'+str+'</table>');
+    flag='e';
+    num=1
+    i=0;
+    j=0;
+    w_limit=0;
+    n_limit=1;
+    count=1;
+    e_limit=$('#tblData tr:eq('+i+') td').length-1
+    s_limit=$('#tblData tr').length-1
+    interval=setInterval(function a(){{
+            if(flag=='e'){
+                console.log(num);
+                console.log(i+" "+j);
+                
+                if($(('#tblData tr:eq('+i+') td:eq('+j+')')).text()==''){
+                $('#tblData tr:eq('+i+') td:eq('+j+')').text(num++).css({'background-color':'black', 'color':'red'});
+                }
+                j++
+                if(e_limit==j){
+                    e_limit--;
+                    flag='s';
+                }
+            } else if(flag=='s'){
+                if($(('#tblData tr:eq('+i+') td:eq('+j+')')).text()==''){
+                $('#tblData tr:eq('+(i)+') td:eq('+j+')').text(num++).css({'background-color':'black', 'color':'red'});
+                }
+                i++
+                if(s_limit==i){
+                    s_limit--;
+                    flag='w';
+                }
+            } else if(flag=='w'){
+                if($(('#tblData tr:eq('+i+') td:eq('+j+')')).text()==''){
+                $('#tblData tr:eq('+i+') td:eq('+(j)+')').text(num++).css({'background-color':'black', 'color':'red'});
+                }
+                j--
+                if(w_limit==j){
+                    w_limit++;
+                    flag='n';
+                }
+            } else if(flag=='n'){
+                if($(('#tblData tr:eq('+i+') td:eq('+j+')')).text()==''){
+                $('#tblData tr:eq('+(i)+') td:eq('+j+')').text(num++).css({'background-color':'black', 'color':'red'});
+                }
+                i--
+                if(n_limit==i){
+                    n_limit++;
+                    flag='e';
+                }
+            }
+        }
+        
+        if(num==m*n){
+            alert(snum-1);
+        
+        }
+    },10);
+})
+</script>
+</html>
